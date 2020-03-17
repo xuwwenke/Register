@@ -7,15 +7,10 @@ $(function(){
         $register=$('#register');
     
     $register.click(function(){
-        if(!validate('#user')||
-            !validate('#phone')||
-            !validate('#pwd')||
-            !validate('#test')||
-            !validateUser('#user')||
-            !validatePhone('#phone')||
-            !validatePwd('#pwd')||
-            !validateTest('#test')
-        ) return;
+        if(!validate('#user')||!validate('#phone')||!validate('#pwd')||!validate('#test')
+           ||!validateUser('#user')||!validatePhone('#phone')||!validatePwd('#pwd')||!validateTest('#test')) return;
+        
+        alert('注册成功');
     })
     
     $user.focusout(function(){
@@ -103,18 +98,24 @@ $(function(){
             $data.select();
             return false;
         }
+        $msg.html('');
+        return true;
     }
 
     $testnumber.click(function(){
-        var timer,num=59;
-
+        var timer,num=59,
+            $msg=$('#test-validation-message');
         timer=setInterval(function(){
             num--;
             if(num===0){
                 clearInterval(timer);
+                $testnumber.removeAttr('disabled');
                 $testnumber.val('获取验证码');
+                $msg.html('请求超时，请稍后再试')
             }else{
+                $testnumber.attr("disabled","disabled");
                 $testnumber.val('重新获取('+num+'s)');
+                $msg.html('');
             }
         },1000)
     })
